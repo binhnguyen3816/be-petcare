@@ -1,3 +1,4 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsString,
   IsOptional,
@@ -9,13 +10,16 @@ import {
 export class UpdateUserDto {
   @IsOptional()
   @IsString()
+  @ApiPropertyOptional({ example: 'Hung bla' })
   name?: string;
 
   @IsOptional()
   @IsString()
+  @ApiPropertyOptional()
   avatar?: string;
 
   @IsOptional()
   @IsString()
+  @ApiPropertyOptional()
   location?: string;
 }

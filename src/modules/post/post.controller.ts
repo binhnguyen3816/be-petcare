@@ -21,8 +21,10 @@ import { CommentService } from '../comment/comment.service';
 import { CreateLikeDto } from '../like/dtos/create-like.dto';
 import { LikeService } from '../like/like.service';
 import { USER_MESSAGES } from 'src/shared/constants/messages';
+import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
 
 @Controller('posts')
+@ApiBearerAuth()
 export class PostController {
   constructor(
     private readonly postService: PostService,
@@ -33,12 +35,14 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOperation({ summary: 'Get all posts' })
   async getPosts(@Query('type') type: string) {
     return this.postService.getPosts(type);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post()
+  @ApiOperation({ summary: 'Create a new post' })
   async addPost(@Request() req, @Body() createPostDto: CreatePostDto) {
     const result = await this.postService.addPost(
       req.user.userId,
@@ -52,6 +56,7 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Patch()
+  @ApiOperation({ summary: 'Update a post' })
   async updatePost(@Request() req, @Body() updatePostDto: UpdatePostDto) {
     const result = await this.postService.updatePost(
       req.user.userId,
@@ -65,6 +70,8 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':postId')
+  @ApiOperation({ summary: 'Delete a post' })
+  @ApiParam({ name: 'postId', type: 'string', required: true, description: 'Post ID', example: '66fe1855ed43466415cef4d3' })
   async deletePost(@Request() req, @Param('postId') postId: string) {
     const userId = req.user.userId as string;
     await this.postService.deletePost(userId, postId);
@@ -75,6 +82,8 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':postId/comments')
+  @ApiOperation({ summary: 'Get comments of a post' })
+  @ApiParam({ name: 'postId', type: 'string', required: true, description: 'Post ID', example: '66fe1855ed43466415cef4d3' })
   async getCommentsOfPost(@Param('postId') postId: string) {
     const result = await this.commentService.getCommentsByPostId(postId);
     return result;
@@ -82,6 +91,7 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Post('comments')
+  @ApiOperation({ summary: 'Add a comment to a post' })
   async addComment(@Request() req, @Body() createCommentDto: CreateCommentDto) {
     const userId = req.user.userId as string;
     const result = await this.postService.addComment(userId, createCommentDto);
@@ -93,6 +103,7 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Post('likes')
+  @ApiOperation({ summary: 'Add a like to a post' })
   async addLike(@Request() req, @Body() createLikeDto: CreateLikeDto) {
     const userId = req.user.userId as string;
     const result = await this.postService.addLike(userId, createLikeDto);
@@ -109,6 +120,8 @@ export class PostController {
 
   @UseGuards(JwtAuthGuard)
   @Delete('comments/:commentId')
+  @ApiOperation({ summary: 'Delete a comment' })
+  @ApiParam({ name: 'commentId', type: 'string', required: true, description: 'Comment ID', example: '66fe1855ed43466415cef4d3' })
   async deleteComment(@Request() req, @Param('commentId') commentId: string) {
     const userId = req.user.userId as string;
     await this.postService.deleteComment(userId, commentId);

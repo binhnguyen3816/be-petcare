@@ -17,9 +17,10 @@ async function bootstrap() {
     .setTitle('PETCARE API')
     .setDescription('The petcare project API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory, {
+  SwaggerModule.setup('', app, documentFactory, {
     customJs: [
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-bundle.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui-standalone-preset.min.js',
@@ -30,6 +31,8 @@ async function bootstrap() {
       'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.15.5/swagger-ui.css',
     ],
   });
+  // Set global prefix
+  app.setGlobalPrefix('api/v1');
   await app.listen(3000);
 }
 bootstrap();

@@ -14,13 +14,16 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { CreateReminderDto } from './dtos/create-reminder.dto';
 import { UpdateReminderDto } from './dtos/update-reminder.dto';
 import { USER_MESSAGES } from 'src/shared/constants/messages';
+import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
 
 @Controller('reminders')
+@ApiBearerAuth()
 export class ReminderController {
   constructor(private readonly reminderService: ReminderService) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOperation({ summary: 'Get all reminders' })
   async getReminders(@Request() req) {
     const userId = req.user.userId as string;
     return this.reminderService.getRemindersByUserId(userId);
@@ -28,6 +31,7 @@ export class ReminderController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
+  @ApiOperation({ summary: 'Create a new reminder' })
   async createReminder(
     @Request() req,
     @Body() createReminderDto: CreateReminderDto,
@@ -45,6 +49,7 @@ export class ReminderController {
 
   @UseGuards(JwtAuthGuard)
   @Patch()
+  @ApiOperation({ summary: 'Update a reminder' })
   async updateReminder(
     @Request() req,
     @Body() updateReminderDto: UpdateReminderDto,
@@ -62,6 +67,8 @@ export class ReminderController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':reminderId')
+  @ApiOperation({ summary: 'Delete a reminder' })
+  @ApiParam({ name: 'reminderId', type: String, required: true, example: '66fe1855ed43466415cef4d3' })
   async deleteReminder(
     @Request() req,
     @Param('reminderId') reminderId: string,
