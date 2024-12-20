@@ -13,12 +13,15 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { USER_MESSAGES } from 'src/shared/constants/messages';
+import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create user' })
   async createUser(@Body() createUserDto: CreateUserDto) {
     const result = await this.userService.create(createUserDto);
     return {
@@ -26,7 +29,7 @@ export class UserController {
       result,
     };
   }
-
+  @ApiOperation({ summary: 'Get user information' })
   @UseGuards(JwtAuthGuard)
   @Get('/me')
   async getMe(@Request() req) {
@@ -35,7 +38,7 @@ export class UserController {
       result,
     };
   }
-
+  @ApiOperation({ summary: 'Update user information' })
   @UseGuards(JwtAuthGuard)
   @Patch('/me')
   async updateUser(@Request() req, @Body() updateUserDto: UpdateUserDto) {

@@ -12,12 +12,12 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({example: 'Hung'})
   readonly name: string;
 
   @IsEmail()
   @IsNotEmpty()
-  @ApiProperty()
+  @ApiProperty({example: 'sFtIY@example.com'})
   readonly email: string;
 
   @IsString()
@@ -26,7 +26,7 @@ export class CreateUserDto {
     message:
       'Password too weak. It must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
   })
-  @ApiProperty()
+  @ApiProperty({example: '123Aa@hahgal'})
   readonly password: string;
 
   @IsOptional()
@@ -36,13 +36,12 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString()
+  @ApiProperty()
   readonly location?: string;
 
   @IsOptional()
   @IsNumber()
+  @ApiProperty()
   readonly activity_point?: number;
-}
-function Apiproperty(arg0: { name: any; }): (target: CreateUserDto, propertyKey: "name") => void {
-  throw new Error('Function not implemented.');
 }
 
