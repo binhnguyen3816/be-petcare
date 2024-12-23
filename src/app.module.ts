@@ -12,6 +12,7 @@ import { LikeModule } from './modules/like/like.module';
 import { ReminderModule } from './modules/reminder/reminder.module';
 import { RecordModule } from './modules/record/record.module';
 import { PaymentModule } from './modules/payment/payment.module';
+import { AppointmentModule } from './modules/appointment/appointment.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { PaymentModule } from './modules/payment/payment.module';
     ReminderModule,
     RecordModule,
     PaymentModule,
+    AppointmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
