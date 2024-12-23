@@ -15,8 +15,12 @@ export class Record {
   @Prop({ default: null })
   location: string;
 
+  @Prop({ type: Date, required: true })
+  timeStamp: Date;
+
   @Prop({ type: Types.ObjectId, ref: 'Pet', required: true })
   petId: ObjectId;
+
 }
 
 export const RecordSchema = SchemaFactory.createForClass(Record);
