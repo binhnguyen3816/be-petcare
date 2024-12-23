@@ -22,10 +22,17 @@ export class Appointment {
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   userId: ObjectId;
 
-    @Prop({ required: true })
+  @Prop({ type: Types.ObjectId, ref: 'Clinic', required: false })
+  clinicId: ObjectId;
+
+  @Prop({ required: true })
   petName: string;
 
-  @Prop({ enum: AppointmentStatus, required: true, default: AppointmentStatus.InComming })
+  @Prop({
+    enum: AppointmentStatus,
+    required: true,
+    default: AppointmentStatus.InComming,
+  })
   status: AppointmentStatus;
 }
 
