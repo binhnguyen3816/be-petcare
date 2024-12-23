@@ -1,7 +1,7 @@
 import { Appointment } from './../schemas/appointment.schema';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsDate, IsEnum, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Types } from 'mongoose';
 import { AppointmentStatus } from 'src/shared/enums/appointmentStatus.enum';
 import { RecordType } from 'src/shared/enums/recordType.enum';
@@ -21,6 +21,11 @@ export class CreateAppointmentDto {
     @IsNotEmpty()
     @ApiProperty({ example: 'HCM' })
     location: string;
+
+    @IsMongoId()
+    @IsOptional()
+    @ApiProperty({ example: '66fe48705eb4fcc12e712191' })
+    clinicId: Types.ObjectId;
   
     @IsNotEmpty()
     @Type(() => Date)
