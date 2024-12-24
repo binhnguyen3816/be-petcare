@@ -14,6 +14,7 @@ import { CommentService } from '../comment/comment.service';
 import { LikeService } from '../like/like.service';
 import { CreateCommentDto } from '../comment/dtos/create-comment.dto';
 import { CreateLikeDto } from '../like/dtos/create-like.dto';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class PostService {
@@ -22,6 +23,7 @@ export class PostService {
     private readonly userService: UserService,
     private readonly commentService: CommentService,
     private readonly likeService: LikeService,
+    private readonly cloudinaryService: CloudinaryService
   ) {}
 
   async findById(_id: string) {
@@ -38,22 +40,27 @@ export class PostService {
     }
   }
 
-  async addPost(userId: string, createPostDto: CreatePostDto) {
+  async addPost(userId: string, createPostDto: CreatePostDto, image: Express.Multer.File) {
     await this.userService.validateUserExists(userId);
+    const uploadedImage =  image ? await this.cloudinaryService.uploadFile(image) : null;
+    const imageUrl = uploadedImage ? uploadedImage.url : null;
     const newPost = new this.postModel({
       ...createPostDto,
       userId: new Types.ObjectId(userId),
+      image: imageUrl,
     });
     return newPost.save();
   }
 
-  async updatePost(userId: string, updatePostDto: UpdatePostDto) {
+  async updatePost(userId: string, updatePostDto: UpdatePostDto, image: Express.Multer.File) {
     await this.userService.validateUserExists(userId);
+    const uploadedImage = image ? await this.cloudinaryService.uploadFile(image) : null;
+    const imageUrl = uploadedImage ? uploadedImage.url : null;
     const postId = updatePostDto._id.toString();
     await this.validateUserAndPost(userId, postId);
     const updatedPost = await this.postModel.findByIdAndUpdate(
       new Types.ObjectId(postId),
-      { $set: updatePostDto },
+      { $set: { ...updatePostDto, image: imageUrl } },
       { new: true },
     );
     return updatedPost;

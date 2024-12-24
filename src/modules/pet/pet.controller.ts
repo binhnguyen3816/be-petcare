@@ -46,10 +46,11 @@ export class PetController {
   @UseGuards(JwtAuthGuard)
   @Patch()
   @ApiOperation({ summary: 'Update a pet' })
-  async updatePet(@Request() req, @Body() updatePetDto: UpdatePetDto) {
+  async updatePet(@Request() req, @Body() updatePetDto: UpdatePetDto, @UploadedFile() avatar: Express.Multer.File) {
     const result = await this.petService.updatePet(
       req.user.userId,
       updatePetDto,
+      avatar,
     );
     return {
       message: USER_MESSAGES.UPDATE_PET_SUCCESSFULLY,

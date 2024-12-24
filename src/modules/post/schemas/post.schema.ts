@@ -19,8 +19,8 @@ export class Post {
   type: PostType;
 
   // Fields for Knowledge type
-  @Prop({ type: [String], required: false })
-  images?: string[];
+  @Prop({ type: String, required: false })
+  images?: string;
 
   @Prop({ required: false })
   content?: string;

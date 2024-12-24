@@ -38,11 +38,6 @@ export class CreatePetDto {
   @ApiProperty({ example: '2022-01-01' })
   birthday: Date;
 
-  @IsOptional()
-  @IsString()
-  @ApiPropertyOptional({example: 'https://example.com/image.jpg'})
-  avatar?: string;
-
   @IsNumber()
   @IsOptional()
   @ApiProperty({ example: 10 })
