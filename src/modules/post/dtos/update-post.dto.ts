@@ -17,17 +17,6 @@ export class UpdatePostDto {
   })
   type?: PostType;
 
-  // Common fields
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  @ApiProperty({
-    type: [String],
-    description: 'Array of image URLs',
-    example: ['https://example.com/image1.jpg', 'https://example.com/image2.jpg'],
-  })
-  images?: string[];
-
   // Fields for Knowledge type
   @IsOptional()
   @IsString()

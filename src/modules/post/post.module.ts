@@ -6,6 +6,7 @@ import { PostSchema } from './schemas/post.schema';
 import { UserModule } from '../user/user.module';
 import { CommentModule } from '../comment/comment.module';
 import { LikeModule } from '../like/like.module';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { LikeModule } from '../like/like.module';
     UserModule,
     CommentModule,
     LikeModule,
+    CloudinaryModule,
   ],
   controllers: [PostController],
   providers: [PostService],

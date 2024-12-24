@@ -37,11 +37,6 @@ export class UpdatePetDto {
   type?: PetType;
 
   @IsOptional()
-  @IsString()
-  @ApiProperty({example: '2022-01-01'})
-  avatar?: string;
-
-  @IsOptional()
   @IsNumber()
   @ApiProperty({example: 10})
   weight?: number;

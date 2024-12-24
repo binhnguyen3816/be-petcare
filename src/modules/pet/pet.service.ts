@@ -42,13 +42,20 @@ export class PetService {
     return newPet.save();
   }
 
-  async updatePet(userId: string, updatePetDto: UpdatePetDto) {
+  async updatePet(userId: string, updatePetDto: UpdatePetDto, avatar: Express.Multer.File) {
     await this.userService.validateUserExists(userId);
+    const uploadedAvatar = avatar ? await this.cloudinaryService.uploadFile(avatar) : null;
+    const avatarUrl = uploadedAvatar ? uploadedAvatar.url : null;
     const petId = updatePetDto._id.toString();
     await this.validateUserAndPet(userId, petId);
     const updatedPet = await this.petModel.findByIdAndUpdate(
       new Types.ObjectId(petId),
-      { $set: updatePetDto },
+      { 
+      $set: { 
+        ...updatePetDto, 
+        avatar: avatarUrl 
+      } 
+      },
       { new: true },
     );
     return updatedPet;

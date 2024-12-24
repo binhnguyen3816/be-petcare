@@ -9,6 +9,7 @@ import {
   Post,
   Query,
   Request,
+  UploadedFile,
   UseGuards,
 } from '@nestjs/common';
 import { PostService } from './post.service';
@@ -43,10 +44,11 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Post()
   @ApiOperation({ summary: 'Create a new post' })
-  async addPost(@Request() req, @Body() createPostDto: CreatePostDto) {
+  async addPost(@Request() req, @Body() createPostDto: CreatePostDto, @UploadedFile() image: Express.Multer.File) {
     const result = await this.postService.addPost(
       req.user.userId,
       createPostDto,
+      image,
     );
     return {
       message: USER_MESSAGES.ADD_POST_SUCCESSFULLY,
@@ -57,10 +59,11 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Patch()
   @ApiOperation({ summary: 'Update a post' })
-  async updatePost(@Request() req, @Body() updatePostDto: UpdatePostDto) {
+  async updatePost(@Request() req, @Body() updatePostDto: UpdatePostDto, @UploadedFile() image: Express.Multer.File) {
     const result = await this.postService.updatePost(
       req.user.userId,
       updatePostDto,
+      image,
     );
     return {
       message: USER_MESSAGES.UPDATE_POST_SUCCESSFULLY,
