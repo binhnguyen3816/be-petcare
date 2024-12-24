@@ -20,6 +20,10 @@ export class CreateRecordDto {
   @ApiProperty({example: 'Vaccination'})
   type: RecordType;
 
+  @IsNotEmpty()
+  @ApiProperty({example: '2021-09-01T00:00:00.000Z'})
+  timeStamp: Date;
+
   @IsOptional()
   @IsString()
   @ApiProperty({example: 'HCM'})

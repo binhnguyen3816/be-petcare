@@ -23,6 +23,10 @@ export class UpdateRecordDto {
   @ApiProperty({ example: 'HCM' })
   location?: string;
 
+  @ApiProperty({ example: '2021-09-01T00:00:00.000Z' })
+  @IsOptional()
+  timeStamp: Date;
+
   @IsOptional()
   @IsMongoId()
   @ApiProperty({ example: '66fe48705eb4fcc12e712191' })
