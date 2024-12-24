@@ -14,6 +14,7 @@ import { RecordModule } from './modules/record/record.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { ClinicModule } from './modules/clinic/clinic.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ClinicModule } from './modules/clinic/clinic.module';
     PaymentModule,
     AppointmentModule,
     ClinicModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

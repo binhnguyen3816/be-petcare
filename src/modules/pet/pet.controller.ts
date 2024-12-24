@@ -7,7 +7,9 @@ import {
   Patch,
   Post,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PetService } from './pet.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
@@ -15,6 +17,7 @@ import { CreatePetDto } from './dtos/create-pet.dto';
 import { UpdatePetDto } from './dtos/update-pet.dto';
 import { USER_MESSAGES } from 'src/shared/constants/messages';
 import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('pets')
 @ApiBearerAuth()
@@ -31,8 +34,9 @@ export class PetController {
   @UseGuards(JwtAuthGuard)
   @Post()
   @ApiOperation({ summary: 'Add a new pet' })
-  async addPet(@Request() req, @Body() createPetDto: CreatePetDto) {
-    const result = await this.petService.addPet(req.user.userId, createPetDto);
+  @UseInterceptors(FileInterceptor('avatar'))
+  async addPet(@Request() req, @Body() createPetDto: CreatePetDto, @UploadedFile() avatar: Express.Multer.File) {
+    const result = await this.petService.addPet(req.user.userId, createPetDto, avatar);
     return {
       message: USER_MESSAGES.ADD_NEW_PET_SUCCESSFULLY,
       result,

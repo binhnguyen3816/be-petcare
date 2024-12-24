@@ -18,6 +18,7 @@ export class CreatePetDto {
   name: string;
 
   @IsNumber()
+  @IsOptional()
   @ApiProperty({ example: 2 })
   age: number;
 
@@ -43,6 +44,7 @@ export class CreatePetDto {
   avatar?: string;
 
   @IsNumber()
+  @IsOptional()
   @ApiProperty({ example: 10 })
   weight: number;
 
@@ -52,5 +54,6 @@ export class CreatePetDto {
 
   @IsBoolean()
   @ApiProperty({ example: true })
+  @IsOptional()
   isNeutered: boolean;
 }
