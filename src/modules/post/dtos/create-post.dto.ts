@@ -12,7 +12,7 @@ import { PostType } from 'src/shared/enums/postType.enum';
 export class CreatePostDto {
   @IsNotEmpty()
   @IsEnum(PostType)
-  @ApiProperty({ 
+  @ApiProperty({
     enum: PostType,
     description: 'Type of the post',
     example: 'knowledge',
@@ -46,6 +46,14 @@ export class CreatePostDto {
   @IsUrl()
   @ApiProperty({ example: 'https://facebook.com/lostcat' })
   fbLink?: string;
+
+  @IsOptional()
+  @IsUrl()
+  @ApiProperty({
+    example:
+      'http://res.cloudinary.com/dr0qbjqgt/image/upload/v1735045482/tppbucggskfhu5pika0b.jpg',
+  })
+  image?: string;
 
   @IsOptional()
   @IsString()

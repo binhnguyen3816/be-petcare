@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsString, IsArray, IsUrl, IsNotEmpty } from 'class-validator';
+import {
+  IsEnum,
+  IsOptional,
+  IsString,
+  IsArray,
+  IsUrl,
+  IsNotEmpty,
+} from 'class-validator';
 import { ObjectId } from 'mongoose';
 import { PostType } from 'src/shared/enums/postType.enum';
 
@@ -43,6 +50,14 @@ export class UpdatePostDto {
   @IsUrl()
   @ApiProperty({ example: 'https://facebook.com/lostcat' })
   fbLink?: string;
+
+  @IsOptional()
+  @IsUrl()
+  @ApiProperty({
+    example:
+      'http://res.cloudinary.com/dr0qbjqgt/image/upload/v1735045482/tppbucggskfhu5pika0b.jpg',
+  })
+  image?: string;
 
   @IsOptional()
   @IsString()

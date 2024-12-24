@@ -30,31 +30,25 @@ export class PetService {
     return this.petModel.find({ userId: new Types.ObjectId(userId) });
   }
 
-  async addPet(userId: string, createPetDto: CreatePetDto, avatar: Express.Multer.File) {
+  async addPet(userId: string, createPetDto: CreatePetDto) {
     await this.userService.validateUserExists(userId);
-    const uploadedAvatar = avatar ? await this.cloudinaryService.uploadFile(avatar) : null;
-    const avatarUrl = uploadedAvatar ? uploadedAvatar.url : null;
     const newPet = new this.petModel({
       ...createPetDto,
-      avatar: avatarUrl,
       userId: new Types.ObjectId(userId),
     });
     return newPet.save();
   }
 
-  async updatePet(userId: string, updatePetDto: UpdatePetDto, avatar: Express.Multer.File) {
+  async updatePet(userId: string, updatePetDto: UpdatePetDto) {
     await this.userService.validateUserExists(userId);
-    const uploadedAvatar = avatar ? await this.cloudinaryService.uploadFile(avatar) : null;
-    const avatarUrl = uploadedAvatar ? uploadedAvatar.url : null;
     const petId = updatePetDto._id.toString();
     await this.validateUserAndPet(userId, petId);
     const updatedPet = await this.petModel.findByIdAndUpdate(
       new Types.ObjectId(petId),
-      { 
-      $set: { 
-        ...updatePetDto, 
-        avatar: avatarUrl 
-      } 
+      {
+        $set: {
+          ...updatePetDto,
+        },
       },
       { new: true },
     );

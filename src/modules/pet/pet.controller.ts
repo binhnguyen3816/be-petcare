@@ -34,9 +34,8 @@ export class PetController {
   @UseGuards(JwtAuthGuard)
   @Post()
   @ApiOperation({ summary: 'Add a new pet' })
-  @UseInterceptors(FileInterceptor('avatar'))
-  async addPet(@Request() req, @Body() createPetDto: CreatePetDto, @UploadedFile() avatar: Express.Multer.File) {
-    const result = await this.petService.addPet(req.user.userId, createPetDto, avatar);
+  async addPet(@Request() req, @Body() createPetDto: CreatePetDto) {
+    const result = await this.petService.addPet(req.user.userId, createPetDto);
     return {
       message: USER_MESSAGES.ADD_NEW_PET_SUCCESSFULLY,
       result,
@@ -46,11 +45,14 @@ export class PetController {
   @UseGuards(JwtAuthGuard)
   @Patch()
   @ApiOperation({ summary: 'Update a pet' })
-  async updatePet(@Request() req, @Body() updatePetDto: UpdatePetDto, @UploadedFile() avatar: Express.Multer.File) {
+  async updatePet(
+    @Request() req,
+    @Body() updatePetDto: UpdatePetDto,
+    @UploadedFile() avatar: Express.Multer.File,
+  ) {
     const result = await this.petService.updatePet(
       req.user.userId,
       updatePetDto,
-      avatar,
     );
     return {
       message: USER_MESSAGES.UPDATE_PET_SUCCESSFULLY,
@@ -59,7 +61,13 @@ export class PetController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @ApiParam({ name: 'petId', type: 'string', required: true, description: 'Pet ID', example: '66fe1855ed43466415cef4d3' })
+  @ApiParam({
+    name: 'petId',
+    type: 'string',
+    required: true,
+    description: 'Pet ID',
+    example: '66fe1855ed43466415cef4d3',
+  })
   @ApiOperation({ summary: 'Delete a pet' })
   @Delete(':petId')
   async deletePet(@Request() req, @Param('petId') petId: string) {

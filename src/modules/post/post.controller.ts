@@ -11,6 +11,7 @@ import {
   Request,
   UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
@@ -23,6 +24,7 @@ import { CreateLikeDto } from '../like/dtos/create-like.dto';
 import { LikeService } from '../like/like.service';
 import { USER_MESSAGES } from 'src/shared/constants/messages';
 import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('posts')
 @ApiBearerAuth()
@@ -44,11 +46,10 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Post()
   @ApiOperation({ summary: 'Create a new post' })
-  async addPost(@Request() req, @Body() createPostDto: CreatePostDto, @UploadedFile() image: Express.Multer.File) {
+  async addPost(@Request() req, @Body() createPostDto: CreatePostDto) {
     const result = await this.postService.addPost(
       req.user.userId,
       createPostDto,
-      image,
     );
     return {
       message: USER_MESSAGES.ADD_POST_SUCCESSFULLY,
@@ -59,11 +60,10 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Patch()
   @ApiOperation({ summary: 'Update a post' })
-  async updatePost(@Request() req, @Body() updatePostDto: UpdatePostDto, @UploadedFile() image: Express.Multer.File) {
+  async updatePost(@Request() req, @Body() updatePostDto: UpdatePostDto) {
     const result = await this.postService.updatePost(
       req.user.userId,
       updatePostDto,
-      image,
     );
     return {
       message: USER_MESSAGES.UPDATE_POST_SUCCESSFULLY,
@@ -74,7 +74,13 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Delete(':postId')
   @ApiOperation({ summary: 'Delete a post' })
-  @ApiParam({ name: 'postId', type: 'string', required: true, description: 'Post ID', example: '66fe1855ed43466415cef4d3' })
+  @ApiParam({
+    name: 'postId',
+    type: 'string',
+    required: true,
+    description: 'Post ID',
+    example: '66fe1855ed43466415cef4d3',
+  })
   async deletePost(@Request() req, @Param('postId') postId: string) {
     const userId = req.user.userId as string;
     await this.postService.deletePost(userId, postId);
@@ -86,7 +92,13 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Get(':postId/comments')
   @ApiOperation({ summary: 'Get comments of a post' })
-  @ApiParam({ name: 'postId', type: 'string', required: true, description: 'Post ID', example: '66fe1855ed43466415cef4d3' })
+  @ApiParam({
+    name: 'postId',
+    type: 'string',
+    required: true,
+    description: 'Post ID',
+    example: '66fe1855ed43466415cef4d3',
+  })
   async getCommentsOfPost(@Param('postId') postId: string) {
     const result = await this.commentService.getCommentsByPostId(postId);
     return result;
@@ -124,7 +136,13 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Delete('comments/:commentId')
   @ApiOperation({ summary: 'Delete a comment' })
-  @ApiParam({ name: 'commentId', type: 'string', required: true, description: 'Comment ID', example: '66fe1855ed43466415cef4d3' })
+  @ApiParam({
+    name: 'commentId',
+    type: 'string',
+    required: true,
+    description: 'Comment ID',
+    example: '66fe1855ed43466415cef4d3',
+  })
   async deleteComment(@Request() req, @Param('commentId') commentId: string) {
     const userId = req.user.userId as string;
     await this.postService.deleteComment(userId, commentId);
