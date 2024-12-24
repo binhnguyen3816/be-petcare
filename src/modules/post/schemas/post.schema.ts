@@ -20,7 +20,7 @@ export class Post {
 
   // Fields for Knowledge type
   @Prop({ type: String, required: false })
-  images?: string;
+  image?: string;
 
   @Prop({ required: false })
   content?: string;

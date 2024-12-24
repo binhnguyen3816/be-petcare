@@ -23,7 +23,7 @@ export class PostService {
     private readonly userService: UserService,
     private readonly commentService: CommentService,
     private readonly likeService: LikeService,
-    private readonly cloudinaryService: CloudinaryService
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
   async findById(_id: string) {
@@ -40,27 +40,30 @@ export class PostService {
     }
   }
 
-  async addPost(userId: string, createPostDto: CreatePostDto, image: Express.Multer.File) {
+  async addPost(userId: string, createPostDto: CreatePostDto) {
     await this.userService.validateUserExists(userId);
-    const uploadedImage =  image ? await this.cloudinaryService.uploadFile(image) : null;
-    const imageUrl = uploadedImage ? uploadedImage.url : null;
     const newPost = new this.postModel({
       ...createPostDto,
       userId: new Types.ObjectId(userId),
-      image: imageUrl,
     });
     return newPost.save();
   }
 
-  async updatePost(userId: string, updatePostDto: UpdatePostDto, image: Express.Multer.File) {
-    await this.userService.validateUserExists(userId);
-    const uploadedImage = image ? await this.cloudinaryService.uploadFile(image) : null;
+  async uploadFile(image: Express.Multer.File) {
+    const uploadedImage = image
+      ? await this.cloudinaryService.uploadFile(image)
+      : null;
     const imageUrl = uploadedImage ? uploadedImage.url : null;
+    return imageUrl;
+  }
+
+  async updatePost(userId: string, updatePostDto: UpdatePostDto) {
+    await this.userService.validateUserExists(userId);
     const postId = updatePostDto._id.toString();
     await this.validateUserAndPost(userId, postId);
     const updatedPost = await this.postModel.findByIdAndUpdate(
       new Types.ObjectId(postId),
-      { $set: { ...updatePostDto, image: imageUrl } },
+      { $set: { ...updatePostDto } },
       { new: true },
     );
     return updatedPost;

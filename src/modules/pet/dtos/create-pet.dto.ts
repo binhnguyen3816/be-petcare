@@ -47,6 +47,13 @@ export class CreatePetDto {
   @ApiProperty({ example: 'Golden Retriever' })
   breed: string;
 
+  @IsString()
+  @ApiProperty({
+    example:
+      'http://res.cloudinary.com/dr0qbjqgt/image/upload/v1735045482/tppbucggskfhu5pika0b.jpg',
+  })
+  avatar: string;
+
   @IsBoolean()
   @ApiProperty({ example: true })
   @IsOptional()

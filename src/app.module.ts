@@ -15,6 +15,7 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { ClinicModule } from './modules/clinic/clinic.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
+import { MediasModule } from './modules/medias/medias.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     AppointmentModule,
     ClinicModule,
     CloudinaryModule,
+    MediasModule,
   ],
   controllers: [AppController],
   providers: [AppService],

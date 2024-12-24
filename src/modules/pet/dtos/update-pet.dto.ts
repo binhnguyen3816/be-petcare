@@ -13,41 +13,48 @@ import { PetType } from 'src/shared/enums/petType.enum';
 
 export class UpdatePetDto {
   @IsNotEmpty()
-  @ApiProperty({example: '66fe48705eb4fcc12e712191'})
+  @ApiProperty({ example: '66fe48705eb4fcc12e712191' })
   _id: ObjectId;
 
   @IsOptional()
   @IsString()
-  @ApiProperty({example: 'Tom Hanks'})
+  @ApiProperty({ example: 'Tom Hanks' })
   name?: string;
 
   @IsOptional()
   @IsNumber()
-  @ApiProperty({example: 2})
+  @ApiProperty({ example: 2 })
   age?: number;
 
   @IsOptional()
   @IsEnum(Gender)
-  @ApiProperty({example: 'male'})
+  @ApiProperty({ example: 'male' })
   gender?: Gender;
 
   @IsOptional()
   @IsEnum(PetType)
-  @ApiProperty({example: 'cat'})
+  @ApiProperty({ example: 'cat' })
   type?: PetType;
 
   @IsOptional()
   @IsNumber()
-  @ApiProperty({example: 10})
+  @ApiProperty({ example: 10 })
   weight?: number;
 
   @IsOptional()
   @IsBoolean()
-  @ApiProperty({example: true})
+  @ApiProperty({ example: true })
   isNeutered?: boolean;
 
   @IsOptional()
   @IsString()
-  @ApiProperty({example: 'Golden Retriever'})
+  @ApiProperty({ example: 'Golden Retriever' })
   breed?: string;
+
+  @IsString()
+  @ApiProperty({
+    example:
+      'http://res.cloudinary.com/dr0qbjqgt/image/upload/v1735045482/tppbucggskfhu5pika0b.jpg',
+  })
+  avatar?: string;
 }
