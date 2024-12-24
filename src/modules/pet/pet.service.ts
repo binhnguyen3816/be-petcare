@@ -1,3 +1,4 @@
+import { ArchiveApiOptions } from './../../../node_modules/cloudinary/types/index.d';
 import {
   ForbiddenException,
   Injectable,
@@ -10,12 +11,14 @@ import { CreatePetDto } from './dtos/create-pet.dto';
 import { UpdatePetDto } from './dtos/update-pet.dto';
 import { UserService } from '../user/user.service';
 import { ERROR_MESSAGES } from 'src/shared/constants/messages';
+import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 
 @Injectable()
 export class PetService {
   constructor(
     @InjectModel('Pet') private petModel: Model<Pet>,
     private readonly userService: UserService,
+    private readonly cloudinaryService: CloudinaryService,
   ) {}
 
   async findById(_id: string) {
@@ -27,10 +30,13 @@ export class PetService {
     return this.petModel.find({ userId: new Types.ObjectId(userId) });
   }
 
-  async addPet(userId: string, createPetDto: CreatePetDto) {
+  async addPet(userId: string, createPetDto: CreatePetDto, avatar: Express.Multer.File) {
     await this.userService.validateUserExists(userId);
+    const uploadedAvatar = avatar ? await this.cloudinaryService.uploadFile(avatar) : null;
+    const avatarUrl = uploadedAvatar ? uploadedAvatar.url : null;
     const newPet = new this.petModel({
       ...createPetDto,
+      avatar: avatarUrl,
       userId: new Types.ObjectId(userId),
     });
     return newPet.save();
