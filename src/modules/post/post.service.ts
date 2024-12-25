@@ -77,6 +77,14 @@ export class PostService {
       .populate('userId', '_id name avatar');
   }
 
+  async getLikedPostIds(userId: string): Promise<string[]> {
+    // Lấy danh sách likes theo userId
+    const likes = await this.likeService.findLikesByUserId(userId);
+
+    // Trích xuất danh sách postId từ likes và trả về
+    return likes.map((like) => like.postId.toString());
+  }
+
   async getPostByUserId(userId: string) {
     return this.postModel.find({ userId });
   }
