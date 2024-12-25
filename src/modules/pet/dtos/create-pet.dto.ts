@@ -17,11 +17,6 @@ export class CreatePetDto {
   @ApiProperty({ example: 'Tom' })
   name: string;
 
-  @IsNumber()
-  @IsOptional()
-  @ApiProperty({ example: 2 })
-  age: number;
-
   @IsEnum(Gender, { message: 'Gender must be either male or female.' })
   @IsNotEmpty()
   @ApiProperty({ example: 'male', required: true })
@@ -58,4 +53,9 @@ export class CreatePetDto {
   @ApiProperty({ example: true })
   @IsOptional()
   isNeutered: boolean;
+
+  @IsString()
+  @ApiProperty({ example: 'My first pet' })
+  @IsOptional()
+  description: string;
 }

@@ -15,7 +15,7 @@ export class UpdateRecordDto {
 
   @IsOptional()
   @IsEnum(RecordType)
-  @ApiProperty({ example: 'Vaccination' })
+  @ApiProperty({ example: 'vaccination' })
   type: RecordType;
 
   @IsOptional()
@@ -26,9 +26,4 @@ export class UpdateRecordDto {
   @ApiProperty({ example: '2021-09-01T00:00:00.000Z' })
   @IsOptional()
   timeStamp: Date;
-
-  @IsOptional()
-  @IsMongoId()
-  @ApiProperty({ example: '66fe48705eb4fcc12e712191' })
-  petId: Types.ObjectId;
 }

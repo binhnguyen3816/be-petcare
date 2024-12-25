@@ -17,7 +17,7 @@ export class CreateRecordDto {
 
   @IsNotEmpty()
   @IsEnum(RecordType)
-  @ApiProperty({example: 'Vaccination'})
+  @ApiProperty({example: 'vaccination'})
   type: RecordType;
 
   @IsNotEmpty()

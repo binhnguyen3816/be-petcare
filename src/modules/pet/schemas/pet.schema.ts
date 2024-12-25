@@ -10,6 +10,9 @@ export class Pet {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ default: null })
+  description: string;
+
   @Prop({ enum: Gender, required: true })
   gender: Gender;
 

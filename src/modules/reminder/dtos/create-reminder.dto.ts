@@ -27,7 +27,7 @@ export class CreateReminderDto {
   @ApiProperty({
     enum: ReminderType,
     description: 'Type of the reminder',
-    example: 'Vaccination',
+    example: 'feeding',
   })
   type: ReminderType;
 
