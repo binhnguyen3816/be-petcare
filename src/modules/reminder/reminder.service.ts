@@ -70,10 +70,8 @@ export class ReminderService {
   }
 
   async updateReminder(userId: string, updateReminderDto: UpdateReminderDto) {
-    const petId = updateReminderDto.petId;
-    if (petId) {
-      await this.validateUserAndPet(userId, petId.toString());
-    }
+    const reminderId = updateReminderDto._id;
+    await this.validateUserAndReminder(userId, reminderId.toString());
     const updatedReminder = await this.reminderModel.findByIdAndUpdate(
       new Types.ObjectId(updateReminderDto._id),
       { $set: updateReminderDto },

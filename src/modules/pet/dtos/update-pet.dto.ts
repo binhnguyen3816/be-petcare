@@ -6,6 +6,7 @@ import {
   IsNumber,
   IsBoolean,
   IsNotEmpty,
+  IsDateString,
 } from 'class-validator';
 import { ObjectId } from 'mongoose';
 import { Gender } from 'src/shared/enums/gender.enum';
@@ -50,6 +51,16 @@ export class UpdatePetDto {
   @IsString()
   @ApiProperty({ example: 'Golden Retriever' })
   breed?: string;
+
+  @IsOptional()
+  @IsString()
+  @ApiProperty({ example: 'My first pet' })
+  description?: string;
+
+  @IsOptional()
+  @IsDateString()
+  @ApiProperty({ example: '2022-01-01' })
+  birthday?: string;
 
   @IsString()
   @ApiProperty({

@@ -23,7 +23,12 @@ import { CommentService } from '../comment/comment.service';
 import { CreateLikeDto } from '../like/dtos/create-like.dto';
 import { LikeService } from '../like/like.service';
 import { USER_MESSAGES } from 'src/shared/constants/messages';
-import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiParam,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('posts')
@@ -39,7 +44,13 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Get()
   @ApiOperation({ summary: 'Get all posts' })
-  async getPosts(@Query('type') type: string) {
+  @ApiQuery({
+    name: 'type',
+    required: false,
+    description: 'Type of post (optional)',
+    example: 'knowledge',
+  })
+  async getPosts(@Query('type') type?: string) {
     return this.postService.getPosts(type);
   }
 

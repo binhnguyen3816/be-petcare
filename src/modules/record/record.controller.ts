@@ -23,7 +23,13 @@ export class RecordController {
 
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: 'Get records by petId' })
-  @ApiParam({ name: 'petId', type: 'string', required: true, description: 'Pet ID', example: '66fe1855ed43466415cef4d3' })
+  @ApiParam({
+    name: 'petId',
+    type: 'string',
+    required: true,
+    description: 'Pet ID',
+    example: '66fe1855ed43466415cef4d3',
+  })
   @Get('pets/:petId')
   async getRecordsByPetId(@Request() req, @Param('petId') petId: string) {
     const userId = req.user.userId as string;
@@ -55,7 +61,7 @@ export class RecordController {
       updateRecordDto,
     );
     return {
-      message: USER_MESSAGES.CREATE_RECORD_SUCCESSFULLY,
+      message: USER_MESSAGES.UPDATE_RECORD_SUCCESSFULLY,
       result,
     };
   }
@@ -63,7 +69,13 @@ export class RecordController {
   @UseGuards(JwtAuthGuard)
   @Delete(':recordId')
   @ApiOperation({ summary: 'Delete record for a pet' })
-  @ApiParam({ name: 'recordId', type: 'string', required: true, description: 'Record ID', example: '66ff5e1200bd5bd5536aeb94' })
+  @ApiParam({
+    name: 'recordId',
+    type: 'string',
+    required: true,
+    description: 'Record ID',
+    example: '66ff5e1200bd5bd5536aeb94',
+  })
   async deleteReminder(@Request() req, @Param('recordId') recordId: string) {
     const userId = req.user.userId as string;
     await this.recordService.deleteRecord(userId, recordId);

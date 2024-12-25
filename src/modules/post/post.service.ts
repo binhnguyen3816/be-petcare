@@ -71,7 +71,7 @@ export class PostService {
 
   async getPosts(type?: string) {
     const query = type ? { type } : {};
-    return this.postModel.find(query);
+    return this.postModel.find(query).populate('userId', '_id name avatar');
   }
 
   async getPostByUserId(userId: string) {

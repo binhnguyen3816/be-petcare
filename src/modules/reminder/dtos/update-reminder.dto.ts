@@ -18,7 +18,7 @@ export class UpdateReminderDto {
 
   @IsOptional()
   @IsEnum(Frequency)
-  @ApiProperty({ 
+  @ApiProperty({
     enum: Frequency,
     description: 'Frequency of the reminder',
     example: 'daily',
@@ -30,7 +30,7 @@ export class UpdateReminderDto {
   @ApiProperty({
     enum: ReminderType,
     description: 'Type of the reminder',
-    example: 'Vaccination',
+    example: 'feeding',
   })
   type?: string;
 
@@ -44,9 +44,4 @@ export class UpdateReminderDto {
   @IsDate()
   @ApiProperty({ example: '2022-01-01' })
   occurDate?: Date;
-
-  @IsOptional()
-  @IsMongoId()
-  @ApiProperty({ example: '66fe48705eb4fcc12e712191' })
-  petId: Types.ObjectId;
 }

@@ -60,9 +60,9 @@ export class RecordService {
   }
 
   async updateRecord(userId: string, updateRecordDto: UpdateRecordDto) {
-    const petId = updateRecordDto.petId;
-    if (petId) {
-      await this.validateUserAndPet(userId, petId.toString());
+    const recordId = updateRecordDto._id;
+    if (recordId) {
+      await this.validateUserAndRecord(userId, recordId.toString());
     }
     const updatedRecord = await this.recordModel.findByIdAndUpdate(
       new Types.ObjectId(updateRecordDto._id),
