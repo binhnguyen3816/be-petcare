@@ -71,7 +71,10 @@ export class PostService {
 
   async getPosts(type?: string) {
     const query = type ? { type } : {};
-    return this.postModel.find(query).populate('userId', '_id name avatar');
+    return this.postModel
+      .find(query)
+      .sort({ createdAt: -1 })
+      .populate('userId', '_id name avatar');
   }
 
   async getPostByUserId(userId: string) {
