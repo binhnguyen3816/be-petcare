@@ -44,8 +44,12 @@ export class CommentService {
   }
 
   async getCommentsByPostId(postId: string) {
-    return this.commentModel.find({
-      postId: new Types.ObjectId(postId),
-    });
+    return this.commentModel
+      .find({ postId: new Types.ObjectId(postId) })
+      .populate({
+        path: 'userId',
+        select: 'name avatar',
+      })
+      .exec();
   }
 }
