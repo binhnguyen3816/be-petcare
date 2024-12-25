@@ -55,6 +55,15 @@ export class PostController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('likes')
+  @ApiOperation({ summary: 'Get IDs of posts liked by the user' })
+  async getLikedPostIds(@Request() req) {
+    const userId = req.user.userId as string;
+    const result = await this.postService.getLikedPostIds(userId);
+    return result;
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post()
   @ApiOperation({ summary: 'Create a new post' })
   async addPost(@Request() req, @Body() createPostDto: CreatePostDto) {

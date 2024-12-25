@@ -15,6 +15,12 @@ export class LikeService {
     });
   }
 
+  async findLikesByUserId(userId: string): Promise<{ postId: string }[]> {
+    return this.likeModel
+      .find({ userId: new Types.ObjectId(userId) })
+      .select('postId');
+  }
+
   async removeLikeByPostId(postId: string) {
     return this.likeModel.deleteMany({ postId: new Types.ObjectId(postId) });
   }
